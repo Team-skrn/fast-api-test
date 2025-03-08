@@ -1,15 +1,33 @@
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-import json
+import sqlite3
+from jinja2 import Template
 
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+# Connect to SQLite database (or replace with your actual DB)
+conn = sqlite3.connect("data.db")
+cursor = conn.cursor()
 
-def load_data():
-    with open("data.json", "r") as f:
-        return json.load(f)
+# Fetch title and other variables
+cursor.execute("SELECT title, api_key, channel_id FROM pages LIMIT 1")  # Modify query as needed
+row = cursor.fetchone()
+conn.close()
 
-@app.get("/")
-def home(request: Request):
-    data = load_data()
-    return templates.TemplateResponse("template.html", {"request": request, **data})
+if row:
+    title, api_key, channel_id = row
+else:
+    title, api_key, channel_id = "DefaultTitle", "DEFAULT_API_KEY", "DEFAULT_CHANNEL_ID"
+
+# Load the base HTML template
+with open("template.html", "r") as file:
+    template_content = file.read()
+
+# Use Jinja2 to replace variables
+template = Template(template_content)
+rendered_html = template.render(title=title, api_key=api_key, channel_id=channel_id)
+
+# Generate the filename based on the title
+filename = f"{title.replace(' ', '_').lower()}.html"
+
+# Save the generated HTML file
+with open(filename, "w") as file:
+    file.write(rendered_html)
+
+print(f"Generated HTML file: {filename}")
