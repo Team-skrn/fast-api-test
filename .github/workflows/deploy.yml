@@ -1,10 +1,10 @@
-name: Deploy FastAPI App
+name: Generate and Save HTML
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
-  deploy:
+  generate_html:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -19,6 +19,14 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run FastAPI script
+      - name: Run FastAPI to Generate HTML
         run: |
-          python main.py
+          python main.py  # This should generate an HTML file in the repo
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add generated_page.html  # Make sure this matches the filename created by your script
+          git commit -m "Auto-generated HTML file"
+          git push
