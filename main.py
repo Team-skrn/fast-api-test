@@ -1,5 +1,14 @@
-Run python main.py  # This should generate an HTML file in the repo
-Traceback (most recent call last):
-  File "/home/runner/work/fast-api-test/fast-api-test/main.py", line 9, in <module>
-    cursor.execute("SELECT title, api_key, channel_id FROM pages LIMIT 1")  # Modify query as needed
-sqlite3.OperationalError: no such table: pages
+import sqlite3
+import os
+
+db_path = os.path.abspath("data.db")
+print(f"📌 Using database file: {db_path}")
+
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+tables = cursor.fetchall()
+print("📌 Tables found in DB:", tables)
+
+conn.close()
