@@ -1,6 +1,6 @@
 import sqlite3
 
-# Connect to the SQLite database (creates it if it doesn't exist)
+# Connect to SQLite (creates data.db if it doesn't exist)
 conn = sqlite3.connect("data.db")
 cursor = conn.cursor()
 
@@ -14,11 +14,14 @@ CREATE TABLE IF NOT EXISTS pages (
 )
 """)
 
-# Insert sample data (Run this only once)
-cursor.execute("INSERT INTO pages (title, api_key, channel_id) VALUES (?, ?, ?)", 
-               ("Pampa Sump", "9VMWLF58YXMSKZ4O", "2322174"))
+# Insert a sample row (you can modify this)
+cursor.execute("""
+INSERT INTO pages (title, api_key, channel_id) 
+VALUES ('Pampa Sump', '9VMWLF58YXMSKZ4O', '2322174')
+""")
 
+# Save changes and close the connection
 conn.commit()
 conn.close()
 
-print("Database setup complete!")
+print("✅ Database setup complete: 'pages' table created.")
