@@ -22,6 +22,12 @@ jobs:
       - name: Setup Database
         run: |
           python setup_db.py  # Creates the table and inserts initial data
+      
+      - name: Check Working Directory
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in directory:"
+          ls -lah
 
       - name: Run FastAPI to Generate HTML
         run: |
