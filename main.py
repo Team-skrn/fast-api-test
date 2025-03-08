@@ -1,19 +1,5 @@
-import os
-import sqlite3
-
-# Get the correct path dynamically
-db_path = os.path.join(os.getcwd(), "database", "data.db")
-
-print(f"📌 Using database file: {db_path}")
-
-if not os.path.exists(db_path):
-    print("❌ ERROR: data.db is missing!")
-    exit(1)
-
-conn = sqlite3.connect(db_path)
-cursor = conn.cursor()
-
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-print("📌 Tables found in DB:", cursor.fetchall())
-
-conn.close()
+Run python main.py  # This should generate an HTML file in the repo
+Traceback (most recent call last):
+  File "/home/runner/work/fast-api-test/fast-api-test/main.py", line 9, in <module>
+    cursor.execute("SELECT title, api_key, channel_id FROM pages LIMIT 1")  # Modify query as needed
+sqlite3.OperationalError: no such table: pages
