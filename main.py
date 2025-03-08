@@ -16,7 +16,7 @@ else:
     title, api_key, channel_id = "DefaultTitle", "DEFAULT_API_KEY", "DEFAULT_CHANNEL_ID"
 
 # Load the base HTML template
-with open("template.html", "r") as file:
+with open("templates/template.html", "r") as file:
     template_content = file.read()
 
 # Use Jinja2 to replace variables
